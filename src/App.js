@@ -24,6 +24,40 @@ class App extends Component {
   addProduct() {
     console.log("product: " + this.state.product);
     console.log("basketNumber: " + this.state.basketNumber);
+    var targetUrl = "http://localhost:8090/baskets/"
+    +this.state.basketNumber+"/products/"+this.state.product+"/";
+    fetch(targetUrl ,{
+      method: 'PUT',
+      headers: {
+                  'Content-Type': "application/json; charset=utf-8",
+      },
+      body: []
+  })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          if(result == null){
+            this.setState({
+              isLoaded: true
+            });
+          } else {
+            console.log(result);
+            var updatedBaskets = this.state.baskets;
+            updatedBaskets[this.state.basketNumber] = result;
+            this.setState({
+              isLoaded: true,
+              baskets: updatedBaskets
+            });
+          }
+          
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
   }
 
   handleProductSelectChange(e) {
@@ -55,9 +89,6 @@ class App extends Component {
           }
           
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
           this.setState({
             isLoaded: true,
