@@ -5,6 +5,45 @@ import Baskets from './Baskets';
 
 class App extends Component {
 
+  state = {
+    baskets: []
+  }
+ 
+
+
+  componentDidMount() {
+    fetch("http://localhost:8090/baskets/")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          if(result == null){
+            this.setState({
+              isLoaded: true,
+              baskets: []
+            });
+          } else {
+            console.log(result);
+            this.setState({
+              isLoaded: true,
+              baskets: result
+            });
+          }
+          
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+
+ 
+
   render(){
 
   const createBasket = () => {
@@ -15,8 +54,17 @@ class App extends Component {
                     'Content-Type': "application/json; charset=utf-8",
         },
         body: []
-    }, { mode: 'no-cors'})
-    .then(response => console.log(response.json()))
+    })
+    .then(res => res.json())
+    .then(
+      (result) => {
+        if(result != null){
+          console.log(this.state);
+          var newBaskets = this.state.baskets;
+          newBaskets.push(result);
+          this.setState({baskets: newBaskets});
+        }
+    })
     .catch(error =>{
             console.log(error)
         });
@@ -26,13 +74,8 @@ class App extends Component {
   return (
     <div>
       <h1>Checkout Client</h1>
-      <ol>
-        <li>
-          <span>TOTAL: </span>
-          <span className="total">25.00</span>
-        </li>
-      </ol>
-     <Baskets/>
+      <h2>Baskets Available</h2>
+     <Baskets baskets={this.state.baskets}/>
       <button onClick={createBasket}>New Basket</button>
     </div>
   );
