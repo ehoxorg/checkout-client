@@ -5,8 +5,33 @@ import Baskets from './Baskets';
 
 class App extends Component {
 
-  state = {
-    baskets: []
+
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      baskets: [],
+      product: 1, 
+      basketNumber: 0
+    }
+
+    this.handleProductSelectChange = this.handleProductSelectChange.bind(this);
+    this.handleBasketSelectChange = this.handleBasketSelectChange.bind(this);
+    this.addProduct = this.addProduct.bind(this);
+  }
+
+  addProduct() {
+    console.log("product: " + this.state.product);
+    console.log("basketNumber: " + this.state.basketNumber);
+  }
+
+  handleProductSelectChange(e) {
+    this.setState({product: e.target.value});
+  }
+  
+  handleBasketSelectChange(e) {
+    this.setState({basketNumber: e.target.value});
   }
  
 
@@ -42,6 +67,9 @@ class App extends Component {
       )
   }
 
+
+
+
  
 
   render(){
@@ -59,7 +87,6 @@ class App extends Component {
     .then(
       (result) => {
         if(result != null){
-          console.log(this.state);
           var newBaskets = this.state.baskets;
           newBaskets.push(result);
           this.setState({baskets: newBaskets});
@@ -77,8 +104,30 @@ class App extends Component {
       <h2>Baskets Available</h2>
      <Baskets baskets={this.state.baskets}/>
       <button onClick={createBasket}>New Basket</button>
+      <h2>Add Item to Basket</h2>
+      <form onSubmit={e => { e.preventDefault(); }}>
+      <div>
+      <label for="baskets">Choose a basket: </label>
+        <select name="baskets" onChange={this.handleBasketSelectChange} id="baskets">
+        {this.state.baskets.map((basket, index) => (
+          <option value={index}>Basket no. {index+1}</option>
+        ))}
+        </select>
+      </div>
+      <div>
+        <label for="products">Choose a product: </label>
+        <select onChange={this.handleProductSelectChange} name="products" id="products">
+          <option value="1">Pen</option>
+          <option value="2">Tshirt</option>
+          <option value="3">Mug</option>
+        </select>
+      </div>
+      <button onClick={() => this.addProduct()}>Add Item</button>
+      </form>
     </div>
   );
 }
+
+
 }
 export default App;
