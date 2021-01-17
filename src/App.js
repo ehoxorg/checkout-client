@@ -1,25 +1,41 @@
 import logo from './logo.svg';
 import './App.css';
+import React, {Component} from 'react';
+import Baskets from './Baskets';
 
-function App() {
+class App extends Component {
+
+  render(){
+
+  const createBasket = () => {
+    var targetUrl ='http://localhost:8090/baskets/'
+    const res= fetch(targetUrl,{
+        method: 'POST',
+        headers: {
+                    'Content-Type': "application/json; charset=utf-8",
+        },
+        body: []
+    }, { mode: 'no-cors'})
+    .then(response => console.log(response.json()))
+    .catch(error =>{
+            console.log(error)
+        });
+
+  };
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Checkout Client</h1>
+      <ol>
+        <li>
+          <span>TOTAL: </span>
+          <span className="total">25.00</span>
+        </li>
+      </ol>
+     <Baskets/>
+      <button onClick={createBasket}>New Basket</button>
     </div>
   );
 }
-
+}
 export default App;
