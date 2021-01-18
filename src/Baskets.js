@@ -1,31 +1,39 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import React, { Component } from 'react';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 class Baskets extends Component {
  
   render(){
         var baskets = this.props.baskets;
         return (
-          <table>
-            <tr>
-              <th>Basket Number</th>
-              <th>Total Pens</th>
-              <th>Total Tshirts</th>
-              <th>Total Mugs</th>
-              <th>Basket Balance</th>
-              <th>Delete</th>
-            </tr>
-            {baskets.map((basket, index) => (
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{getPenNumber(basket.Items)}</td>
-                <td>{getTshirtNumber(basket.Items)}</td>
-                <td>{getMugsNumber(basket.Items)}</td>
-                <td>{basket.Total}</td>
-                <td><button onClick={() => this.deleteRow(index)}>Delete</button></td>
-
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Basket Number</th>
+                <th>Total Pens</th>
+                <th>Total Tshirts</th>
+                <th>Total Mugs</th>
+                <th>Basket Balance</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </table>
+            </thead>
+            <tbody>
+              {baskets.map((basket, index) => (
+                <tr key={index}>
+                  <td>{index+1}</td>
+                  <td>{getPenNumber(basket.Items)}</td>
+                  <td>{getTshirtNumber(basket.Items)}</td>
+                  <td>{getMugsNumber(basket.Items)}</td>
+                  <td>{basket.Total}€</td>
+                  <td><Button variant="danger" onClick={() => this.deleteRow(index)}>Delete</Button></td>
+
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         );
   }
 
@@ -59,7 +67,7 @@ class Baskets extends Component {
 }
 
 function getPenNumber(items){
-  if(items == undefined)
+  if(items === undefined)
     return 0;
   const pens = items.filter(item => item.ProductName === 'Pen');
   var pensCount = pens.length;
@@ -67,7 +75,7 @@ function getPenNumber(items){
 }
 
 function getTshirtNumber(items){
-  if(items == undefined)
+  if(items === undefined)
     return 0;
 
   const tshirts = items.filter(item => item.ProductName === 'Tshirt');
@@ -76,7 +84,7 @@ function getTshirtNumber(items){
 }
 
 function getMugsNumber(items){
-  if(items == undefined)
+  if(items === undefined)
     return 0;
   const mugs = items.filter(item => item.ProductName === 'Mug');
   var mugsCount = mugs.length;

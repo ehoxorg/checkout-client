@@ -1,7 +1,8 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React, {Component} from 'react';
 import Baskets from './Baskets';
+import {Form, Col, Row, Container, Button}  from 'react-bootstrap';
 
 class App extends Component {
 
@@ -130,32 +131,52 @@ class App extends Component {
   };
  
   return (
-    <div>
-      <h1>Checkout Client</h1>
-      <h2>Baskets Available</h2>
-     <Baskets baskets={this.state.baskets}/>
-      <button onClick={createBasket}>New Basket</button>
-      <h2>Add Item to Basket</h2>
-      <form onSubmit={e => { e.preventDefault(); }}>
-      <div>
-      <label for="baskets">Choose a basket: </label>
-        <select name="baskets" onChange={this.handleBasketSelectChange} id="baskets">
+    <Container fluid>
+      <Row>
+        <Col>
+          <h1>Checkout Client</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={{textAlign: "center"}}>
+          <Button block variant="primary" size="lg" onClick={createBasket}>New Basket</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={{textAlign: "center"}}>
+          <h2>Baskets Available</h2>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Baskets baskets={this.state.baskets}/>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={{textAlign: "center"}}>
+          <h2>Add Item to Basket</h2>
+        </Col>
+      </Row>
+      <Form onSubmit={e => { e.preventDefault(); }}>
+      <Form.Group>
+      <Form.Label for="baskets">Choose a basket: </Form.Label>
+      <Form.Control as="select" name="baskets" onChange={this.handleBasketSelectChange} id="baskets">
         {this.state.baskets.map((basket, index) => (
           <option value={index}>Basket no. {index+1}</option>
         ))}
-        </select>
-      </div>
-      <div>
-        <label for="products">Choose a product: </label>
-        <select onChange={this.handleProductSelectChange} name="products" id="products">
+        </Form.Control>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label for="products">Choose a product: </Form.Label>
+        <Form.Control as="select" onChange={this.handleProductSelectChange} name="products" id="products">
           <option value="1">Pen</option>
           <option value="2">Tshirt</option>
           <option value="3">Mug</option>
-        </select>
-      </div>
-      <button onClick={() => this.addProduct()}>Add Item</button>
-      </form>
-    </div>
+        </Form.Control>
+      </Form.Group>
+      <Button block variant="primary" onClick={this.addProduct}>Add Item</Button>
+      </Form>
+    </Container>
   );
 }
 
