@@ -1,3 +1,12 @@
+# checkout-client  
+checkout-client serves as a client for `checkout-server` (which is another repository on my GitHub account). It is my first attempt at using 2 new technologies (ReactJs for the client + Golang for the server). 
+Below is a screenshot of what it looks like:      
+
+<br/>
+
+<img width="1000" alt="checkout" src="https://github.com/user-attachments/assets/95729c7d-ccdc-4293-8874-8eff563243f3" />
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
